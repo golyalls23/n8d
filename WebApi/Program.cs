@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // EntityFramework DbContext
-builder.Services.AddDbContext<TodoDb>(opt =>
+builder.Services.AddDbContext<TodoDbContext>(opt =>
 {
     opt.UseInMemoryDatabase("TodoList");
 });
