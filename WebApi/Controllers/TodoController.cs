@@ -35,6 +35,17 @@ namespace WebApi.Controllers
 
             return Ok(todoItem);
         }
+
+        [HttpPost]
+        public ActionResult<TodoItem> Create(TodoItem todoItem)
+        {
+            var lastTodoItem = _context.TodoItems.LastOrDefault();
+            var id = lastTodoItem?.Id + 1 ?? 1;
+            var todoItemNew = new TodoItem() { Id = id, Description = todoItem.Description, IsComplete = todoItem.IsComplete };
+            _context.TodoItems.Add(todoItemNew);
+            _context.SaveChanges();
+            return Created(); // "GetById", new { id, todoItem });
+        }
         [HttpGet]
         [Route("complete")]
         public ActionResult<List<TodoItem>> GetCompleteTodos()
