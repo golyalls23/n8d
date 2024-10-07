@@ -1,8 +1,5 @@
 @WebApi_HostAddress = https://localhost:7092
 
-GET {{WebApi_HostAddress}}/weatherforecast/
-Accept: application/json
-
 ###
 
 POST {{WebApi_HostAddress}}/api/todo
