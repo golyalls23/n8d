@@ -6,10 +6,10 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class TodoController(ILogger<TodoController> logger, TodoDb context) : ControllerBase
+    public class TodoController(ILogger<TodoController> logger, TodoDbContext context) : ControllerBase
     {
         private readonly ILogger<TodoController> _logger = logger;
-        private readonly TodoDb _context = context;
+        private readonly TodoDbContext _context = context;
         
         //private List<TodoItem> TodoItems =
         //[

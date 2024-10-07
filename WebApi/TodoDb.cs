@@ -2,9 +2,9 @@
 
 namespace WebApi
 {
-    public class TodoDb : DbContext
+    public class TodoDbContext : DbContext
     {
-        public TodoDb(DbContextOptions<TodoDb> options) : base(options)
+        public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options)
         {
 
         }
