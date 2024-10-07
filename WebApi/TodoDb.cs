@@ -1,14 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using WebApi.Models;
 
-namespace WebApi
+namespace WebApi;
+
+public class TodoDbContext : DbContext
 {
-    public class TodoDbContext : DbContext
+    public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options)
     {
-        public TodoDbContext(DbContextOptions<TodoDbContext> options) : base(options)
-        {
 
-        }
-
-        public DbSet<TodoItem> TodoItems { get; set; }
     }
+
+    public DbSet<TodoItem> TodoItems { get; set; }
 }
