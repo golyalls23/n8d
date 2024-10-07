@@ -21,5 +21,17 @@ namespace WebApi.Controllers
             _logger.LogInformation("Todo GetAll Requested");
             return Ok(TodoItems);
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public ActionResult<TodoItem> GetById(int id)
+        {
+            _logger.LogInformation($"Todo GetById: {id}");
+            var todoItem = TodoItems.FirstOrDefault(todo => todo.Id == id);
+            if (todoItem is null)
+                return NotFound();
+
+            return Ok(todoItem);
+        }
     }
 }
