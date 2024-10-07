@@ -52,7 +52,7 @@ PUT {{WebApi_HostAddress}}/api/todo/0
 Content-Type: application/json
 
 {
-  "Id" : 0
+  "Id" : 0,
   "Description" : "A",
   "IsComplete" : true
 }
