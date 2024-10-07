@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApi;
+using WebApi.Interfaces;
+using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,8 @@ builder.Services.AddDbContext<TodoDbContext>(opt =>
 
 builder.Services.AddControllers()
     .AddNewtonsoftJson();
+
+builder.Services.AddScoped<ITodoService, TodoService>();
 
 var app = builder.Build();
 
