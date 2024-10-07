@@ -15,10 +15,11 @@ Content-Type: application/json
 POST {{WebApi_HostAddress}}/api/todo
 Content-Type: application/xml
 
-{
-  "Description" : "A",
-  "IsComplete" : true
-}
+<TodoItem>
+  <Description>A</Description>
+  <Id>1</Id>
+  <IsComplete>true</IsComplete>
+</TodoItem>
 
 ###
 
