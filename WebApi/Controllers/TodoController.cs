@@ -4,22 +4,24 @@ namespace WebApi.Controllers
 {
     [ApiController]
     [Route("/api/[controller]")]
-    public class TodoController(ILogger<TodoController> logger) : ControllerBase
+    public class TodoController(ILogger<TodoController> logger, TodoDb context) : ControllerBase
     {
         private readonly ILogger<TodoController> _logger = logger;
-
-        private List<TodoItem> TodoItems =
-        [
-            new TodoItem() { Id = 1, Description = "A", IsComplete = false },
-            new TodoItem() { Id = 2, Description = "B", IsComplete = true },
-            new TodoItem() { Id = 3, Description = "C", IsComplete = false },
-        ];
+        private readonly TodoDb _context = context;
+        
+        //private List<TodoItem> TodoItems =
+        //[
+        //    new TodoItem() { Id = 1, Description = "A", IsComplete = false },
+        //    new TodoItem() { Id = 2, Description = "B", IsComplete = true },
+        //    new TodoItem() { Id = 3, Description = "C", IsComplete = false },
+        //];
 
         [HttpGet]
         public ActionResult<IEnumerable<TodoItem>> GetAll()
         {
             _logger.LogInformation("Todo GetAll Requested");
-            return Ok(TodoItems);
+            var todoItems = _context.TodoItems.ToList();
+            return Ok(todoItems);
         }
 
         [HttpGet]
@@ -27,7 +29,7 @@ namespace WebApi.Controllers
         public ActionResult<TodoItem> GetById(int id)
         {
             _logger.LogInformation($"Todo GetById: {id}");
-            var todoItem = TodoItems.FirstOrDefault(todo => todo.Id == id);
+            var todoItem = _context.TodoItems.Find(id);
             if (todoItem is null)
                 return NotFound();
 
@@ -37,7 +39,7 @@ namespace WebApi.Controllers
         [Route("complete")]
         public ActionResult<List<TodoItem>> GetCompleteTodos()
         {
-            var todosComplete = TodoItems.Where(todo => todo.IsComplete == true);
+            var todosComplete = _context.TodoItems.Where(todo => todo.IsComplete == true).ToList();
             return Ok(todosComplete);
         }
     }

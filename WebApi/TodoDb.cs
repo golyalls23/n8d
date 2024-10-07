@@ -8,5 +8,7 @@ namespace WebApi
         {
 
         }
+
+        public DbSet<TodoItem> TodoItems { get; set; }
     }
 }
