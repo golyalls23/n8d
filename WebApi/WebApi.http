@@ -5,6 +5,16 @@ Accept: application/json
 
 ###
 
+POST {{WebApi_HostAddress}}/api/todo
+Content-Type: application/json
+
+{
+  "Description" : "A",
+  "IsComplete" : true
+}
+
+###
+
 GET {{WebApi_HostAddress}}/api/todo/complete
 
 ###
