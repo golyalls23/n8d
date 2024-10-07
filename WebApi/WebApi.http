@@ -9,3 +9,14 @@ GET {{WebApi_HostAddress}}/api/todo/complete
 
 ###
 
+GET {{WebApi_HostAddress}}/api/todo
+
+###
+
+GET {{WebApi_HostAddress}}/api/todo/1
+
+###
+
+GET {{WebApi_HostAddress}}/api/todo/0
+
+###
