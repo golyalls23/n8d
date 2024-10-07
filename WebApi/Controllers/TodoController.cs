@@ -33,5 +33,12 @@ namespace WebApi.Controllers
 
             return Ok(todoItem);
         }
+        [HttpGet]
+        [Route("complete")]
+        public ActionResult<List<TodoItem>> GetCompleteTodos()
+        {
+            var todosComplete = TodoItems.Where(todo => todo.IsComplete == true);
+            return Ok(todosComplete);
+        }
     }
 }
