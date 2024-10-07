@@ -12,8 +12,13 @@ builder.Services.AddDbContext<TodoDbContext>(opt =>
     opt.UseInMemoryDatabase("TodoList");
 });
 
-builder.Services.AddControllers()
+builder.Services
+    .AddControllers(options =>
+    {
+        options.ReturnHttpNotAcceptable = true;
+    })
     .AddNewtonsoftJson();
+
 
 builder.Services.AddScoped<ITodoService, TodoService>();
 
