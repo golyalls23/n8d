@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApi.Controllers
@@ -64,6 +65,26 @@ namespace WebApi.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
 
+        }
+
+        [HttpPatch]
+        [Route("{id}")]
+        public async Task<ActionResult> UpdateParitialTodo(int id, [FromBody] JsonPatchDocument<TodoItem> patchDoc)
+        {
+            if (patchDoc is null)
+                return BadRequest();
+            
+            var todoItemFromDb = await _context.TodoItems.FindAsync(id);
+            patchDoc.ApplyTo(todoItemFromDb, ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+            
+            if (!TryValidateModel(todoItemFromDb))
+                return BadRequest();
+
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
 
         [HttpDelete]

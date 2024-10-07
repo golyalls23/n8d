@@ -68,3 +68,42 @@ DELETE {{WebApi_HostAddress}}/api/todo/1
 DELETE {{WebApi_HostAddress}}/api/todo/0
 
 ###
+
+PATCH {{WebApi_HostAddress}}/api/todo/1
+Content-Type: application/json
+
+[
+  {
+    "op": "replace",
+    "path": "/Description",
+    "value"  : "A Paritial Update"
+  }
+]
+
+###
+
+PATCH {{WebApi_HostAddress}}/api/todo/1
+Content-Type: application/json
+
+[
+  {
+    "op": "replace",
+    "path": "/IsComplete",
+    "value"  : "false"
+  }
+]
+
+###
+
+PATCH {{WebApi_HostAddress}}/api/todo/1
+Content-Type: application/json
+
+[
+  {
+    "op": "replace",
+    "path": "/IsComplete",
+    "value"  : "true"
+  }
+]
+
+###

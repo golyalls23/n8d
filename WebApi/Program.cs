@@ -10,7 +10,8 @@ builder.Services.AddDbContext<TodoDb>(opt =>
     opt.UseInMemoryDatabase("TodoList");
 });
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddNewtonsoftJson();
 
 var app = builder.Build();
 
