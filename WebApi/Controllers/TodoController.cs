@@ -46,6 +46,25 @@ namespace WebApi.Controllers
             _context.SaveChanges();
             return Created(); // "GetById", new { id, todoItem });
         }
+
+        [HttpPut]
+        [Route("{id}")]
+        public ActionResult<TodoItem> UpdateTodo(int id, TodoItem todoItem)
+        {
+            if (id != todoItem.Id)
+                return BadRequest();
+
+            var dbTodoItem = _context.TodoItems.Find(id);
+            if (dbTodoItem is null)
+                return NotFound();
+
+            dbTodoItem.Description = todoItem.Description;
+            dbTodoItem.IsComplete = todoItem.IsComplete;
+            _context.SaveChanges();
+            return NoContent();
+
+        }
+
         [HttpGet]
         [Route("complete")]
         public ActionResult<List<TodoItem>> GetCompleteTodos()
