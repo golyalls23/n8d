@@ -65,6 +65,20 @@ namespace WebApi.Controllers
 
         }
 
+        [HttpDelete]
+        [Route("{id}")]
+        public ActionResult DeleteTodo(int id)
+        {
+            var todoItem = _context.TodoItems.Find(id);
+            if (todoItem is null)
+                return NotFound();
+
+            _context.TodoItems.Remove(todoItem);
+            _context.SaveChanges();
+
+            return NoContent();
+        }
+
         [HttpGet]
         [Route("complete")]
         public ActionResult<List<TodoItem>> GetCompleteTodos()

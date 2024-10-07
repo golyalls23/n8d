@@ -61,3 +61,10 @@ Content-Type: application/json
 }
 
 ###
+
+DELETE {{WebApi_HostAddress}}/api/todo/1
+
+###
+DELETE {{WebApi_HostAddress}}/api/todo/0
+
+###
