@@ -1,6 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using WebApi;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// EntityFramework DbContext
+builder.Services.AddDbContext<TodoDb>(opt =>
+{
+    opt.UseInMemoryDatabase("TodoList");
+});
 
 builder.Services.AddControllers();
 
