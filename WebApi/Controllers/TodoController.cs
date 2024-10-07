@@ -30,7 +30,7 @@ namespace WebApi.Controllers
         [Route("{id}")]
         public async Task<ActionResult<TodoItem>> GetById(int id)
         {
-            _logger.LogInformation($"Todo GetById: {id}");
+            _logger.LogInformation("Todo GetById: {id}", id);
             var todoItem = await _context.TodoItems.FindAsync(id);
             if (todoItem is null)
                 return NotFound();
@@ -75,7 +75,10 @@ namespace WebApi.Controllers
                 return BadRequest();
             
             var todoItemFromDb = await _context.TodoItems.FindAsync(id);
-            patchDoc.ApplyTo(todoItemFromDb, ModelState);
+            if (todoItemFromDb is null)
+                return BadRequest();
+
+            patchDoc.ApplyTo<TodoItem>(todoItemFromDb, ModelState);
 
             if (!ModelState.IsValid)
                 return BadRequest();
