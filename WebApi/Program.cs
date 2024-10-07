@@ -17,7 +17,8 @@ builder.Services
     {
         options.ReturnHttpNotAcceptable = true;
     })
-    .AddNewtonsoftJson();
+    .AddNewtonsoftJson()
+    .AddXmlSerializerFormatters();
 
 
 builder.Services.AddScoped<ITodoService, TodoService>();
