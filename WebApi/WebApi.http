@@ -12,11 +12,26 @@ Content-Type: application/json
 
 ###
 
+POST {{WebApi_HostAddress}}/api/todo
+Content-Type: application/xml
+
+{
+  "Description" : "A",
+  "IsComplete" : true
+}
+
+###
+
 GET {{WebApi_HostAddress}}/api/todo/complete
 
 ###
 
 GET {{WebApi_HostAddress}}/api/todo
+
+###
+
+GET {{WebApi_HostAddress}}/api/todo
+Accept: application/xml
 
 ###
 
