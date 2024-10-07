@@ -30,3 +30,34 @@ GET {{WebApi_HostAddress}}/api/todo/1
 GET {{WebApi_HostAddress}}/api/todo/0
 
 ###
+
+PUT {{WebApi_HostAddress}}/api/todo/1
+Content-Type: application/json
+
+{
+  "Id" : 1,
+  "Description" : "A Updated",
+  "IsComplete" : false
+}
+
+###
+PUT {{WebApi_HostAddress}}/api/todo/0
+Content-Type: application/json
+
+{
+  "Id" : 1,
+  "Description" : "A",
+  "IsComplete" : true
+}
+
+###
+PUT {{WebApi_HostAddress}}/api/todo/0
+Content-Type: application/json
+
+{
+  "Id" : 0
+  "Description" : "A",
+  "IsComplete" : true
+}
+
+###
