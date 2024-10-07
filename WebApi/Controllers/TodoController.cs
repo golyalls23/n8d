@@ -1,16 +1,17 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApi.Interfaces;
 using WebApi.Models;
 
 namespace WebApi.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
-public class TodoController(ILogger<TodoController> logger, TodoDbContext context) : ControllerBase
+public class TodoController(ILogger<TodoController> logger, ITodoService todoService) : ControllerBase
 {
     private readonly ILogger<TodoController> _logger = logger;
-    private readonly TodoDbContext _context = context;
+    private readonly ITodoService _todoService = todoService;
     
     //private List<TodoItem> TodoItems =
     //[
@@ -23,7 +24,7 @@ public class TodoController(ILogger<TodoController> logger, TodoDbContext contex
     public async Task<ActionResult<IEnumerable<TodoItem>>> GetAll()
     {
         _logger.LogInformation("Todo GetAll Requested");
-        var todoItems = await _context.TodoItems.ToListAsync();
+        var todoItems = await _todoService.GetAll();
         return Ok(todoItems);
     }
 
@@ -32,7 +33,7 @@ public class TodoController(ILogger<TodoController> logger, TodoDbContext contex
     public async Task<ActionResult<TodoItem>> GetById(int id)
     {
         _logger.LogInformation("Todo GetById: {id}", id);
-        var todoItem = await _context.TodoItems.FindAsync(id);
+        var todoItem = await _todoService.GetById(id);
         if (todoItem is null)
             return NotFound();
 
@@ -42,12 +43,11 @@ public class TodoController(ILogger<TodoController> logger, TodoDbContext contex
     [HttpPost]
     public async Task<ActionResult<TodoItem>> Create(TodoItem todoItem)
     {
-        var lastTodoItem = await _context.TodoItems.LastOrDefaultAsync();
-        var id = lastTodoItem?.Id + 1 ?? 1;
-        var todoItemNew = new TodoItem() { Id = id, Description = todoItem.Description, IsComplete = todoItem.IsComplete };
-        await _context.TodoItems.AddAsync(todoItemNew);
-        await _context.SaveChangesAsync();
-        return Created(); // "GetById", new { id, todoItem });
+        var newTodo = await _todoService.Create(todoItem);
+        if (newTodo is null)
+            return BadRequest();
+
+        return CreatedAtAction(nameof(GetById), new { newTodo.Id }, newTodo );
     }
 
     [HttpPut]
@@ -57,14 +57,12 @@ public class TodoController(ILogger<TodoController> logger, TodoDbContext contex
         if (id != todoItem.Id)
             return BadRequest();
 
-        var dbTodoItem = await _context.TodoItems.FindAsync(id);
+        var dbTodoItem = await _todoService.GetById(id);
         if (dbTodoItem is null)
             return NotFound();
 
-        dbTodoItem.Description = todoItem.Description;
-        dbTodoItem.IsComplete = todoItem.IsComplete;
-        await _context.SaveChangesAsync();
-        return NoContent();
+        var updatedTodo = await _todoService.Update(id, todoItem);
+        return Ok(updatedTodo);
 
     }
 
@@ -75,41 +73,37 @@ public class TodoController(ILogger<TodoController> logger, TodoDbContext contex
         if (patchDoc is null)
             return BadRequest();
         
-        var todoItemFromDb = await _context.TodoItems.FindAsync(id);
-        if (todoItemFromDb is null)
+        var dbTodoItem = await _todoService.GetById(id);
+        if (dbTodoItem is null)
             return BadRequest();
 
-        patchDoc.ApplyTo<TodoItem>(todoItemFromDb, ModelState);
+        patchDoc.ApplyTo<TodoItem>(dbTodoItem, ModelState);
 
         if (!ModelState.IsValid)
             return BadRequest();
         
-        if (!TryValidateModel(todoItemFromDb))
+        if (!TryValidateModel(dbTodoItem))
             return BadRequest();
 
-        await _context.SaveChangesAsync();
-        return NoContent();
+        var updatedTodo = await _todoService.Update(id, dbTodoItem);
+        return Ok(updatedTodo);
     }
 
     [HttpDelete]
     [Route("{id}")]
     public async Task<ActionResult> DeleteTodo(int id)
     {
-        var todoItem = await _context.TodoItems.FindAsync(id);
-        if (todoItem is null)
-            return NotFound();
-
-        _context.TodoItems.Remove(todoItem);
-        await _context.SaveChangesAsync();
-
-        return NoContent();
+        return (await _todoService.Delete(id))
+            ? NoContent() 
+            : NotFound();
     }
 
     [HttpGet]
     [Route("complete")]
     public async Task<ActionResult<List<TodoItem>>> GetCompleteTodos()
     {
-        var todosComplete = await _context.TodoItems.Where(todo => todo.IsComplete == true).ToListAsync();
+        var todos = await _todoService.GetAll();
+        var todosComplete = todos.Where(todo => todo.IsComplete == true);
         return Ok(todosComplete);
     }
 }
