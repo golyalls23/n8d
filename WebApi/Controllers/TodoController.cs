@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+//using WebApi.Entities;
 using WebApi.Interfaces;
 using WebApi.Models;
 
@@ -41,9 +42,9 @@ public class TodoController(ILogger<TodoController> logger, ITodoService todoSer
     }
 
     [HttpPost]
-    public async Task<ActionResult<TodoItem>> Create(TodoItem todoItem)
+    public async Task<ActionResult<TodoItem>> Create(TodoItemCreate todoItemCreate)
     {
-        var newTodo = await _todoService.Create(todoItem);
+        var newTodo = await _todoService.Create(todoItemCreate);
         if (newTodo is null)
             return BadRequest();
 
@@ -52,7 +53,7 @@ public class TodoController(ILogger<TodoController> logger, ITodoService todoSer
 
     [HttpPut]
     [Route("{id}")]
-    public async Task<ActionResult<TodoItem>> UpdateTodo(int id, TodoItem todoItem)
+    public async Task<ActionResult<TodoItem>> UpdateTodo(int id, TodoItemUpdate todoItem)
     {
         if (id != todoItem.Id)
             return BadRequest();
@@ -85,7 +86,13 @@ public class TodoController(ILogger<TodoController> logger, ITodoService todoSer
         if (!TryValidateModel(dbTodoItem))
             return BadRequest();
 
-        var updatedTodo = await _todoService.Update(id, dbTodoItem);
+        var todoItemUpdate = new TodoItemUpdate()
+        {
+            Description = dbTodoItem.Description,
+            IsComplete = dbTodoItem.IsComplete
+        };
+
+        var updatedTodo = await _todoService.Update(id, todoItemUpdate);
         return Ok(updatedTodo);
     }
 

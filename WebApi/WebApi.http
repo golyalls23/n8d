@@ -14,12 +14,12 @@ Content-Type: application/json
 
 POST {{WebApi_HostAddress}}/api/todo
 Content-Type: application/xml
+Accept: application/xml
 
-<TodoItem>
+<TodoItemCreate>
   <Description>A</Description>
-  <Id>1</Id>
   <IsComplete>true</IsComplete>
-</TodoItem>
+</TodoItemCreate>
 
 ###
 
