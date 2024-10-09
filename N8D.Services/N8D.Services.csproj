@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\n8d.entities\N8D.Entities.csproj" />
-    <ProjectReference Include="..\n8d.models\N8D.Models.csproj" />
-    <ProjectReference Include="..\n8d.repos\N8D.Repos.csproj" />
+    <ProjectReference Include="..\N8D.Entities\N8D.Entities.csproj" />
+    <ProjectReference Include="..\N8D.Models\N8D.Models.csproj" />
+    <ProjectReference Include="..\N8D.Repos\N8D.Repos.csproj" />
   </ItemGroup>
 
 </Project>
