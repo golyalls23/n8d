@@ -1,6 +1,6 @@
-﻿namespace WebApi.Models;
+﻿namespace N8D.Models;
 
-public class TodoItemUpdate 
+public class TodoItemUpdate
 {
     public int Id { get; set; }
     public required string Description { get; set; }

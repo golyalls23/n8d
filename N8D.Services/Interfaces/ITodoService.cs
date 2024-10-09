@@ -1,6 +1,6 @@
-﻿using WebApi.Models;
+﻿using N8D.Models;
 
-namespace WebApi.Interfaces;
+namespace N8D.Services.Interfaces;
 
 public interface ITodoService
 {

@@ -1,6 +1,6 @@
-﻿using WebApi.Entities;
+﻿using N8D.Entities;
 
-namespace WebApi.Interfaces;
+namespace N8D.Repos.Interfaces;
 
 public interface ITodoRepository
 {

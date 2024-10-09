@@ -1,8 +1,10 @@
 using Microsoft.EntityFrameworkCore;
-using WebApi;
-using WebApi.Interfaces;
-using WebApi.Repositories;
-using WebApi.Services;
+using N8D.Repos;
+using N8D.Repos.Implementations;
+using N8D.Repos.Interfaces;
+using N8D.Services;
+using N8D.Services.Implementations;
+using N8D.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

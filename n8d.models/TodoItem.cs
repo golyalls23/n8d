@@ -1,7 +1,8 @@
-﻿namespace WebApi.Models;
+﻿namespace N8D.Models;
 
-public class TodoItemCreate
+public class TodoItem
 {
+    public int Id { get; set; }
     public required string Description { get; set; }
     public bool IsComplete { get; set; }
 }
