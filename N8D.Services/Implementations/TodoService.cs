@@ -1,20 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using WebApi.Interfaces;
-using WebApi.Models;
+﻿using N8D.Models;
+using N8D.Repos.Interfaces;
+using N8D.Services.Interfaces;
 
-namespace WebApi.Services;
+namespace N8D.Services.Implementations;
 
-public class TodoService(ILogger<TodoService> logger, ITodoRepository todoRepository) : ITodoService
+public class TodoService(ITodoRepository todoRepository) : ITodoService
 {
-    private readonly ILogger<TodoService> _logger = logger;
     private readonly ITodoRepository _todoRepository = todoRepository;
 
     public async Task<List<TodoItem>> GetAll()
     {
         var todoItems = new List<TodoItem>();
-        var dbTodoItems = await _todoRepository.GetAll(); 
-        foreach(var dbTodoItem in dbTodoItems)
+        var dbTodoItems = await _todoRepository.GetAll();
+        foreach (var dbTodoItem in dbTodoItems)
         {
             todoItems.Add(new TodoItem()
             {
@@ -42,13 +40,13 @@ public class TodoService(ILogger<TodoService> logger, ITodoRepository todoReposi
 
     public async Task<TodoItem?> Create(TodoItemCreate todoItemCreate)
     {
-        var id = await _todoRepository.MaxId(); 
+        var id = await _todoRepository.MaxId();
         var dbTodoItemNew = new Entities.TodoItem() { Id = id, Description = todoItemCreate.Description, IsComplete = todoItemCreate.IsComplete };
-          
+
         var newDbTodoItem = await _todoRepository.Create(dbTodoItemNew);
         if (newDbTodoItem is null)
             return null;
-            
+
         return new TodoItem()
         {
             Id = newDbTodoItem.Id,
@@ -66,7 +64,7 @@ public class TodoService(ILogger<TodoService> logger, ITodoRepository todoReposi
             Description = todoItem.Description,
             IsComplete = todoItem.IsComplete,
         };
-        var updatedTodoItem = await _todoRepository.Update(id, dbTodoItem); 
+        var updatedTodoItem = await _todoRepository.Update(id, dbTodoItem);
 
         if (updatedTodoItem is null)
             return null;

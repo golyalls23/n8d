@@ -1,4 +1,4 @@
-﻿namespace WebApi.Models;
+﻿namespace N8D.Entities;
 
 public class TodoItem
 {

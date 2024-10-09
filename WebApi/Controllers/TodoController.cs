@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-//using WebApi.Entities;
-using WebApi.Interfaces;
-using WebApi.Models;
+using N8D.Models;
+using N8D.Services.Interfaces;
 
-namespace WebApi.Controllers;
+namespace N8D.WebApi.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
@@ -13,7 +11,7 @@ public class TodoController(ILogger<TodoController> logger, ITodoService todoSer
 {
     private readonly ILogger<TodoController> _logger = logger;
     private readonly ITodoService _todoService = todoService;
-    
+
     //private List<TodoItem> TodoItems =
     //[
     //    new TodoItem() { Id = 1, Description = "A", IsComplete = false },
@@ -48,7 +46,7 @@ public class TodoController(ILogger<TodoController> logger, ITodoService todoSer
         if (newTodo is null)
             return BadRequest();
 
-        return CreatedAtAction(nameof(GetById), new { newTodo.Id }, newTodo );
+        return CreatedAtAction(nameof(GetById), new { newTodo.Id }, newTodo);
     }
 
     [HttpPut]
@@ -73,16 +71,16 @@ public class TodoController(ILogger<TodoController> logger, ITodoService todoSer
     {
         if (patchDoc is null)
             return BadRequest();
-        
+
         var dbTodoItem = await _todoService.GetById(id);
         if (dbTodoItem is null)
             return BadRequest();
 
-        patchDoc.ApplyTo<TodoItem>(dbTodoItem, ModelState);
+        patchDoc.ApplyTo(dbTodoItem, ModelState);
 
         if (!ModelState.IsValid)
             return BadRequest();
-        
+
         if (!TryValidateModel(dbTodoItem))
             return BadRequest();
 
@@ -100,8 +98,8 @@ public class TodoController(ILogger<TodoController> logger, ITodoService todoSer
     [Route("{id}")]
     public async Task<ActionResult> DeleteTodo(int id)
     {
-        return (await _todoService.Delete(id))
-            ? NoContent() 
+        return await _todoService.Delete(id)
+            ? NoContent()
             : NotFound();
     }
 

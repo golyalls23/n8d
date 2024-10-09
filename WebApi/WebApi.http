@@ -43,6 +43,9 @@ GET {{WebApi_HostAddress}}/api/todo/1
 GET {{WebApi_HostAddress}}/api/todo/0
 
 ###
+GET {{WebApi_HostAddress}}/api/todo/0
+Accept: application/xml
+###
 
 PUT {{WebApi_HostAddress}}/api/todo/1
 Content-Type: application/json
