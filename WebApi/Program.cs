@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApi;
 using WebApi.Interfaces;
+using WebApi.Repositories;
 using WebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +23,8 @@ builder.Services
 
 
 builder.Services.AddScoped<ITodoService, TodoService>();
+builder.Services.AddScoped<ITodoRepository, TodoRepository>();
+
 
 var app = builder.Build();
 

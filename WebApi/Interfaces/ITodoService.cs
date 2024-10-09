@@ -1,13 +1,12 @@
 ﻿using WebApi.Models;
 
-namespace WebApi.Interfaces
+namespace WebApi.Interfaces;
+
+public interface ITodoService
 {
-    public interface ITodoService
-    {
-        Task<TodoItem?> Create(TodoItem todoItem);
-        Task<bool> Delete(int id);
-        Task<List<TodoItem>> GetAll();
-        Task<TodoItem?> GetById(int id);
-        Task<TodoItem?> Update(int id, TodoItem todoItem);
-    }
+    Task<List<TodoItem>> GetAll();
+    Task<TodoItem?> GetById(int id);
+    Task<TodoItem?> Create(TodoItemCreate todoItemCreate);
+    Task<TodoItem?> Update(int id, TodoItemUpdate todoItemUpdate);
+    Task<bool> Delete(int id);
 }
