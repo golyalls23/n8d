@@ -1,4 +1,8 @@
-﻿
+﻿using ConApp.Linq;
+
+//L1.P1();
+L1.P2();
+
 CloseProgram();
 
 static void CloseProgram()
